@@ -23,34 +23,11 @@ public class MainComponent {
 	}
 	
 	private void mouse() {
-		if(Mouse.isButtonDown(0)) {
-			int x = Mouse.getX();
-			int y = Mouse.getY();
-			System.out.println("mouse down at: " + x + ", " + y);
-		}
+		MouseUtil.printCoords();
 	}
 	
 	private void keyboard() {
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			System.out.println("SPACE down");
-		}
-		
-		while(Keyboard.next()) {
-			if(Keyboard.getEventKeyState()) {
-				if(Keyboard.getEventKey() == Keyboard.KEY_A) {
-					System.out.println("A");
-				}
-				if(Keyboard.getEventKey() == Keyboard.KEY_D) {
-					System.out.println("D");
-				}
-				if(Keyboard.getEventKey() == Keyboard.KEY_W) {
-					System.out.println("W");
-				}
-				if(Keyboard.getEventKey() == Keyboard.KEY_S) {
-					System.out.println("S");
-				}
-			}
-		}
+		KeyboardUtil.printKeys();
 	}
 	
 	private void mainLoop() {
