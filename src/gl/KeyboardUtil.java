@@ -3,7 +3,7 @@ package gl;
 import org.lwjgl.input.Keyboard;
 
 public class KeyboardUtil {
-	public static void printKeys() {
+	public void printKeys() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			System.out.println("SPACE down");
 		}

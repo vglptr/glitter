@@ -1,13 +1,18 @@
 package gl;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 public class MainComponent {
+	MouseUtil mouseUtil;
+	KeyboardUtil keyboardUtil;
+	TimeUtil timeUtil;
+	
 	public MainComponent() {
+		mouseUtil = new MouseUtil();
+		keyboardUtil = new KeyboardUtil();
+		timeUtil = new TimeUtil(); 
 		initDisplay();
 		mainLoop();
 	}
@@ -23,11 +28,11 @@ public class MainComponent {
 	}
 	
 	private void mouse() {
-		MouseUtil.printCoords();
+		mouseUtil.printCoords();
 	}
 	
 	private void keyboard() {
-		KeyboardUtil.printKeys();
+		keyboardUtil.printKeys();
 	}
 	
 	private void mainLoop() {
@@ -35,8 +40,15 @@ public class MainComponent {
 			// render OpenGL here
 			mouse();
 			keyboard();
+			update(timeUtil.getDelta());
+			timeUtil.updateFps();
 			Display.update();
+			Display.sync(60);
 		}
 		Display.destroy();
+	}
+	
+	private void update(int delta) {
+		
 	}
 }
