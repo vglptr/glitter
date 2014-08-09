@@ -5,15 +5,20 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 public class MainComponent {
+	private static MainComponent instance;
 	MouseUtil mouseUtil;
 	KeyboardUtil keyboardUtil;
 	TimeUtil timeUtil;
+	Triangle triangle;
+	//kitalálni a patternt, hogy a controllereket hogyan illesztem ide be
 	
 	public MainComponent() {
+		instance = this;
 		mouseUtil = new MouseUtil();
 		keyboardUtil = new KeyboardUtil();
 		timeUtil = new TimeUtil(); 
 		initDisplay();
+		triangle = new Triangle();
 		mainLoop();
 	}
 	
@@ -43,12 +48,25 @@ public class MainComponent {
 			update(timeUtil.getDelta());
 			timeUtil.updateFps();
 			Display.update();
-			Display.sync(60);
+			Display.sync(120);
 		}
 		Display.destroy();
 	}
 	
 	private void update(int delta) {
+		triangle.update(delta);
+		
+	}
+	
+	public static void end()
+    {
+        instance.dispose();
+        instance = null;
+        Display.destroy();
+        System.exit(0);
+    }
+	
+	public void dispose() {
 		
 	}
 }
