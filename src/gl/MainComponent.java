@@ -10,39 +10,37 @@ public class MainComponent {
 	KeyboardUtil keyboardUtil;
 	TimeUtil timeUtil;
 	Triangle triangle;
-	//kitalálni a patternt, hogy a controllereket hogyan illesztem ide be
-	
+
 	public MainComponent() {
 		instance = this;
 		mouseUtil = new MouseUtil();
 		keyboardUtil = new KeyboardUtil();
-		timeUtil = new TimeUtil(); 
+		timeUtil = new TimeUtil();
 		initDisplay();
 		triangle = new Triangle();
 		mainLoop();
 	}
-	
+
 	private void initDisplay() {
 		try {
-			Display.setDisplayMode(new DisplayMode(800,600));
+			Display.setDisplayMode(new DisplayMode(800, 600));
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
 	}
-	
+
 	private void mouse() {
 		mouseUtil.printCoords();
 	}
-	
+
 	private void keyboard() {
 		keyboardUtil.printKeys();
 	}
-	
+
 	private void mainLoop() {
 		while (!Display.isCloseRequested()) {
-			// render OpenGL here
 			mouse();
 			keyboard();
 			update(timeUtil.getDelta());
@@ -52,21 +50,20 @@ public class MainComponent {
 		}
 		Display.destroy();
 	}
-	
+
 	private void update(int delta) {
 		triangle.update(delta);
-		
+
 	}
-	
-	public static void end()
-    {
-        instance.dispose();
-        instance = null;
-        Display.destroy();
-        System.exit(0);
-    }
-	
+
+	public static void end() {
+		instance.dispose();
+		instance = null;
+		Display.destroy();
+		System.exit(0);
+	}
+
 	public void dispose() {
-		
+
 	}
 }

@@ -25,15 +25,21 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Matrix4f;
 
 public class Triangle {
 	ShaderProgram shader;
-	 int vboID, vaoID;
+	int vboID, vaoID;
+	int uniformLocation;
+	Transform transform;
+	
 	public Triangle() {
 		shader = new ShaderProgram();
 		shader.attachVertexShader("gl/vertex.glsl");
 		shader.attachFragmentShader("gl/fragment.glsl");
 		shader.link();
+		uniformLocation = shader.getUniformLocation("m_model");
+		transform = new Transform();
 		
 		// Create a FloatBuffer to hold our vertex data
 		FloatBuffer vertices = BufferUtils.createFloatBuffer(6);
@@ -67,6 +73,8 @@ public class Triangle {
 	public void update(long elapsedTime) {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
             MainComponent.end();
+       	transform.rotate(1, 1, 1);	
+        render();
     }
 	
 	 public void render() {
@@ -75,6 +83,11 @@ public class Triangle {
         
         // Bind our ShaderProgram
         shader.bind();
+        
+        //this method takes the 99% of this program by querying uniform location in each update...
+        //shader.setUniform("m_model", transform.getFloatBuffer());
+        
+        shader.setUniform(uniformLocation, transform.getFloatBuffer());
         
         // Bind the VAO
         glBindVertexArray(vaoID);
@@ -88,7 +101,7 @@ public class Triangle {
         // Disable the location 0 and unbind the VAO
         glDisableVertexAttribArray(0);        
         glBindVertexArray(0);
-        
+
         // Unbind the ShaderProgram
         ShaderProgram.unbind();
     }
