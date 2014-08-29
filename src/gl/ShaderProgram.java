@@ -152,6 +152,7 @@ public class ShaderProgram {
 
 	/**
 	 * Fast setting of uniform without getting location
+	 * 
 	 * @param location
 	 * @param matrix
 	 */
@@ -159,9 +160,21 @@ public class ShaderProgram {
 		// Set the uniform
 		glUniformMatrix4(location, false, matrix);
 	}
-	
+
+	/**
+	 * Fast setting of uniform without getting location
+	 * 
+	 * @param location
+	 * @param matrix
+	 */
+	public void setUniform(int location, float f1, float f2) {
+		// Set the uniform
+		glUniform2f(location, f1, f2);
+	}
+
 	/**
 	 * Gets uniform location
+	 * 
 	 * @param name
 	 * @return int of uniform location
 	 */

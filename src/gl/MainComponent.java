@@ -1,34 +1,47 @@
 package gl;
 
+import java.util.ArrayList;
+
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
 public class MainComponent {
 	private static MainComponent instance;
-	MouseUtil mouseUtil;
-	KeyboardUtil keyboardUtil;
-	TimeUtil timeUtil;
-	Triangle triangle;
+	private ArrayList<Updatable> updatables;
+	private MouseUtil mouseUtil;
+	private KeyboardUtil keyboardUtil;
+	private TimeUtil timeUtil;
+	private Triangle triangle;
 
 	public MainComponent() {
 		instance = this;
+		updatables = new ArrayList<>();
 		mouseUtil = new MouseUtil();
 		keyboardUtil = new KeyboardUtil();
 		timeUtil = new TimeUtil();
 		initDisplay();
-		triangle = new Triangle();
+		initUpdatables();
 		mainLoop();
 	}
 
 	private void initDisplay() {
 		try {
 			Display.setDisplayMode(new DisplayMode(800, 600));
+			Display.setInitialBackground(0.5f, 0.5f, 1f);
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
+	}
+
+	private void initUpdatables() {
+		triangle = new Triangle();
+		updatables.add(triangle);
 	}
 
 	private void mouse() {
@@ -41,7 +54,6 @@ public class MainComponent {
 
 	private void mainLoop() {
 		while (!Display.isCloseRequested()) {
-			mouse();
 			keyboard();
 			update(timeUtil.getDelta());
 			timeUtil.updateFps();
@@ -52,8 +64,9 @@ public class MainComponent {
 	}
 
 	private void update(int delta) {
-		triangle.update(delta);
-
+		for (Updatable u : updatables) {
+			u.update(delta);
+		}
 	}
 
 	public static void end() {
