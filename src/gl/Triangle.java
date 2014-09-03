@@ -31,10 +31,14 @@ public class Triangle implements Updatable {
 	int uniformLocationTransform;
 	int uniformLocationMouse;
 	Transform transform;
-	int width = Display.getWidth();
-	int height = Display.getHeight();
+	float width;
+	float height;
+	int mouseX;
+	int mouseY;
 
 	public Triangle() {
+		width = (float)Display.getWidth();
+		height = (float)Display.getHeight();
 		shader = new ShaderProgram();
 		shader.attachVertexShader("gl/vertex.glsl");
 		shader.attachFragmentShader("gl/fragment.glsl");
@@ -75,6 +79,8 @@ public class Triangle implements Updatable {
 	public void update(long delta) {
 		// transform.rotate(1, 1, 1);
 		// transform.reset();
+		mouseX = Mouse.getX();
+		mouseY = Mouse.getY();
 		render();
 	}
 
@@ -87,8 +93,8 @@ public class Triangle implements Updatable {
 
 		shader.setUniform(uniformLocationTransform, transform.getFloatBuffer());
 		shader.setUniform(uniformLocationMouse,
-				((float) Mouse.getX() * 2.0f - (float) width) / (float) width,
-				((float) Mouse.getY() * 2.0f - (float) height) / (float) height);
+				(mouseX * 2.0f - width) / width,
+				(mouseY * 2.0f - height) / height);
 		// Bind the VAO
 		glBindVertexArray(vaoID);
 

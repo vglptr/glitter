@@ -16,6 +16,7 @@ public class MainComponent {
 	private KeyboardUtil keyboardUtil;
 	private TimeUtil timeUtil;
 	private Triangle triangle;
+	private Square square;
 
 	public MainComponent() {
 		instance = this;
@@ -33,6 +34,7 @@ public class MainComponent {
 			Display.setDisplayMode(new DisplayMode(800, 600));
 			Display.setInitialBackground(0.5f, 0.5f, 1f);
 			Display.create();
+			Display.setVSyncEnabled(true);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -41,7 +43,8 @@ public class MainComponent {
 
 	private void initUpdatables() {
 		triangle = new Triangle();
-		updatables.add(triangle);
+		square = new Square();
+		updatables.add(square);
 	}
 
 	private void mouse() {
@@ -58,7 +61,7 @@ public class MainComponent {
 			update(timeUtil.getDelta());
 			timeUtil.updateFps();
 			Display.update();
-			Display.sync(120);
+			Display.sync(60);
 		}
 		Display.destroy();
 	}

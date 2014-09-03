@@ -134,6 +134,38 @@ public class ShaderProgram {
 			break;
 		}
 	}
+	
+	
+	/**
+	 * Sets the uniforms in this shader
+	 * 
+	 * @param name
+	 *            The name of the uniform
+	 * @param values
+	 *            The values of the uniforms (Max 4)
+	 */
+	public void setUniform(int location, float... values) {
+		if (values.length > 4) {
+			System.err.println("Uniforms cannot have more than 4 values");
+			MainComponent.end();
+		}
+
+		// Set the uniform values
+		switch (values.length) {
+		case 1:
+			glUniform1f(location, values[0]);
+			break;
+		case 2:
+			glUniform2f(location, values[0], values[1]);
+			break;
+		case 3:
+			glUniform3f(location, values[0], values[1], values[2]);
+			break;
+		case 4:
+			glUniform4f(location, values[0], values[1], values[2], values[3]);
+			break;
+		}
+	}
 
 	/**
 	 * Sets the uniform matrix in this shader.
@@ -159,17 +191,6 @@ public class ShaderProgram {
 	public void setUniform(int location, FloatBuffer matrix) {
 		// Set the uniform
 		glUniformMatrix4(location, false, matrix);
-	}
-
-	/**
-	 * Fast setting of uniform without getting location
-	 * 
-	 * @param location
-	 * @param matrix
-	 */
-	public void setUniform(int location, float f1, float f2) {
-		// Set the uniform
-		glUniform2f(location, f1, f2);
 	}
 
 	/**
